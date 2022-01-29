@@ -1,11 +1,52 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View,FlatList ,TouchableOpacity, ImageComponent,Alert} from 'react-native';
+import Header from "./components/Header" ;
+import Todolist from "./components/Todolist" ;
+import GetTodos from './components/GetTodos';
+
 
 export default function App() {
+  const [todos,setTodos] =useState([
+    {text:'Take coffee',key:'1'},
+    {text:'Have Dinner',key:'2'},
+    {text:'Do Homeworkk',key:'3'}
+  ]);
+  const pressHandler = (key) =>{
+      setTodos(
+        (alltodos)=> {
+          return alltodos.filter(
+          todo => todo.key != key)
+          }
+        
+   
+      );
+        
+  }
+  const submitTodo = (val) => {
+    if(val.length>=3)
+    {
+    setTodos((pvstodos) => [{text:val,key:Math.random().toString()},...pvstodos])
+    }
+    else
+    {
+      Alert.alert("Oops!","Your todo should be greater than three chars",[{text:"Understood"}])
+    }
+  }
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Header/>
+      <View style={styles.content}>
+        <GetTodos submitTodo={submitTodo}/>
+        <View>
+        <FlatList
+          data={todos}
+          renderItem={({item})=>
+              <Todolist item={item} pressHandler={pressHandler}/>
+              }
+        />
+        </View>
+      </View>
     </View>
   );
 }
@@ -14,7 +55,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
+  content:{
+     padding:40,
+
+  }
 });
