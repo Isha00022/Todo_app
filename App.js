@@ -10,7 +10,7 @@ export default function App() {
   const [todos,setTodos] =useState([
     {text:'Take coffee',key:'1'},
     {text:'Have Dinner',key:'2'},
-    {text:'Do Homeworkk',key:'3'}
+    {text:'Do Homework',key:'3'}
   ]);
   const pressHandler = (key) =>{
       setTodos(
